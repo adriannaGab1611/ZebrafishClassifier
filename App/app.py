@@ -9,8 +9,8 @@ class_names = ["Curved spine", "Dead", "Edema", "Normal", "Unhatched", "Yolk def
 
 @st.cache_resource
 def load_models():
-    modelResNet = tf.keras.models.load_model("pythonProject/ResNet_FT_BestSoFar.h5", compile=False)
-    modelInception = tf.keras.models.load_model("pythonProject/Inception_FT_BestSoFar2.h5", compile=False)
+    modelResNet = tf.keras.models.load_model("App/ResNet_FT_BestSoFar.h5", compile=False)
+    modelInception = tf.keras.models.load_model("App/Inception_FT_BestSoFar2.h5", compile=False)
     return modelResNet, modelInception
 
 def classify(image, model, target_size):
