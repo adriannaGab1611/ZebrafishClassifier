@@ -4,7 +4,6 @@ import numpy as np
 import tensorflow as tf
 import wikipedia
 
-# Define class names
 class_names = ["Curved spine", "Dead", "Edema", "Normal", "Unhatched", "Yolk deformation"]
 
 @st.cache_resource
@@ -18,16 +17,12 @@ def classify(image, model, target_size):
     This function takes an image, a model, and a target size and returns the predicted class and confidence
     score of the image.
     """
-    # Convert image to target size
+
     image = ImageOps.fit(image, target_size, Image.Resampling.LANCZOS)
-    # Convert image to numpy array
     image_array = np.asarray(image)
-    # Normalize image
     normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
-    # Set model input
     data = np.ndarray(shape=(1, *target_size, 3), dtype=np.float32)
     data[0] = normalized_image_array
-    # Make prediction
     pred = model.predict(data)
     return pred
 
@@ -50,7 +45,6 @@ def display_predictions(pred, model_name):
                 cols[0].write(f"{class_name}")
                 cols[1].write(f"{prediction * 100:.2f}%")
     else:
-        # Find the class with the maximum prediction value
         max_pred_index = np.argmax(sorted_pred)
         max_class_name = sorted_class_names[max_pred_index]
         max_prediction = sorted_pred[max_pred_index]
@@ -79,10 +73,8 @@ def main():
             st.sidebar.error(f"Nie znaleziono strony na Wikipedii dla podanego zapytania.")
 
     with overview:
-        # Set title
         st.title('Klasyfikacja wad rozwojowych Danio rerio')
 
-        # Upload file with a label
         file = st.file_uploader('Wgraj zdjęcie larwy Danio rerio', type=['jpeg', 'jpg', 'png'])
 
         # Display image and classify
@@ -94,7 +86,7 @@ def main():
             with prediction:
                 if st.button("Klasyfikuj"):
                     st.divider()
-                    cols = st.columns(2)  # Add a small column in between for the vertical line
+                    cols = st.columns(2)
 
                     with cols[0]:
                         # Classify image with ResNet
